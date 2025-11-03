@@ -15,20 +15,43 @@ export default function notas_gerar() {
     ]);
 
     return (
-        <View style={styles.container}>
-            <FlatList
-                data={notas_array}
-                renderItem={({ item }) => <Nota nota={item} key={item.id} />}
-                keyExtractor={item => item.id.toString()}
-            />
-        </View>
+     <View style={styles.fundo}>
+
+          <View style={styles.barra_sup}>
+               <Text>Anotações</Text>
+          </View>
+
+          <View style={styles.fundo_notas}>
+               <FlatList
+                    data={notas_array}
+                    renderItem={({ item }) => <Nota nota={item} key={item.id} />}
+                    keyExtractor={item => item.id.toString()}
+               />
+          </View>
+
+     </View>
     );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    padding: 24,
-  },
+    fundo:{
+          flex: 1,
+          backgroundColor: "#e3e3e3",
+          justifyContent: "center",
+          alignItems: "center",
+    },
+
+     barra_sup: {
+          width: "auto",
+          height: "20%",
+          backgroundColor: "#0000feff",
+          justifyContent: "center",
+          alignItems: "center",
+     },
+
+     fundo_notas: {
+          flex: 1,
+          alignItems: "center",
+          padding: 24,
+     },
 });
