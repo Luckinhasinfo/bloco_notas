@@ -1,13 +1,13 @@
 import {View, Text, StyleSheet} from 'react-native';
-const Nota = ({ nota }) => {
+const Nota = ({}) => {
     return (
-        <View style={styles.nota}>
-            <Text>{nota.texto}</Text>
+        <View style={styles.nota_sty}>
+            <Text>TESTE</Text>
         </View>
     );
 }; 
 const styles = StyleSheet.create({
-    nota: {   
+    nota_sty: {   
         width: 50,
         height: 50,
         borderRadius: '100%',
