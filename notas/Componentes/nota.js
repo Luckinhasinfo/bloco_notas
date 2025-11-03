@@ -8,10 +8,12 @@ const Nota = ({ nota }) => {
 }; 
 const styles = StyleSheet.create({
     nota_sty: {   
-        width: 50,
-        height: 50,
-        borderRadius: '100%',
-        opacity: 0.4,
+        width: 150,
+        height: 150,
+        backgroundColor: '#ffffff',
+        borderRadius: 5,
+        margin: 5,
+
     }
 });
     export default Nota;

@@ -18,40 +18,61 @@ export default function notas_gerar() {
      <View style={styles.fundo}>
 
           <View style={styles.barra_sup}>
-               <Text>Anotações</Text>
+               <Text style={styles.texto_barra_sup}>Anotações</Text>
           </View>
 
           <View style={styles.fundo_notas}>
                <FlatList
                     data={notas_array}
-                    renderItem={({ item }) => <Nota nota={item} key={item.id} />}
+                    renderItem={({ item }) => <Nota nota={item} />}
                     keyExtractor={item => item.id.toString()}
+                    numColumns={2}
                />
           </View>
 
+          <View style={styles.barra_inf}>
+
+          </View>
      </View>
     );
 }
 
 const styles = StyleSheet.create({
+     //BACK
     fundo:{
           flex: 1,
-          backgroundColor: "#e3e3e3",
+          backgroundColor: "#a9c7d4",
           justifyContent: "center",
           alignItems: "center",
     },
-
+    //BACK
+    //BARRA SUPERIOR
      barra_sup: {
-          width: "auto",
-          height: "20%",
-          backgroundColor: "#0000feff",
+          width: "100%",
+          height: "10%",
+          backgroundColor: "#3f516e",
           justifyContent: "center",
           alignItems: "center",
      },
-
+     texto_barra_sup: {
+          color: "#ffffff",
+          fontSize: 30,
+          fontWeight: "bold",
+     },
+     //BARRA SUPERIOR
+     //NOTAS
      fundo_notas: {
           flex: 1,
           alignItems: "center",
           padding: 24,
      },
+     //NOTAS
+     //BARRA INFERIOR
+     barra_inf: {
+          width: "100%",
+          height: "10%",
+          backgroundColor: "#3f516e",
+          alignItems: "center",
+     },
+     //BARRA INFERIOR
 });
