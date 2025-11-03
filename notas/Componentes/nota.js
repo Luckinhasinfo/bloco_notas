@@ -1,8 +1,8 @@
 import {View, Text, StyleSheet} from 'react-native';
-const Nota = ({}) => {
+const Nota = ({ nota }) => {
     return (
         <View style={styles.nota_sty}>
-            <Text>TESTE</Text>
+            <Text>{nota.texto}</Text>
         </View>
     );
 }; 
