@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, FlatList, Button } from "react-native";
 import Nota from "../Componentes/nota";
-import Add_bot from "../Componentes/add_bot";
+import Add_nota_bot from "../Componentes/add_nota_bot";
 import Alarme_bot from "../Componentes/alarme_bot";
 import { useState } from "react";
 
@@ -37,7 +37,7 @@ export default function notas_gerar() {
           </View>
 
           <View style={styles.barra_inf}>
-               <Add_bot></Add_bot>
+               <Add_nota_bot></Add_nota_bot>
                <Alarme_bot></Alarme_bot>
           </View>
      </View>
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
      fundo_notas: {
           flex: 1,
           alignItems: "center",
-          padding: 24,
+          paddingTop: 24,
      },
      //NOTAS
      //BARRA INFERIOR
