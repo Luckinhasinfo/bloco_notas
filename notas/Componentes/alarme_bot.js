@@ -8,7 +8,7 @@ const Alarme_bot = () => {
 
     return (
         <TouchableOpacity onPress={() => {
-
+          router.navigate('add_nota')
         }}>
             <Alarme_icon width={70} height={70} />
         </TouchableOpacity>

@@ -8,7 +8,7 @@ const Add_bot = () => {
 
     return (
         <TouchableOpacity onPress={() => {
-          router.navigate('add_nota')
+          
         }}>
             <Add_icon width={70} height={70} />
         </TouchableOpacity>
