@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff',
         borderRadius: 5,
         margin: 5,
-
+          padding: 7,
     }
 });
     export default Nota;

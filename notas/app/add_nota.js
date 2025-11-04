@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
      barra_sup: {
           width: "100%",
           height: "10%",
-          backgroundColor: "#3f516e",
+          backgroundColor: "#ffffffff",
           justifyContent: "center",
           alignItems: "center",
      },
