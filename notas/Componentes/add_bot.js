@@ -1,4 +1,4 @@
-import { TouchableOpacity, Image } from 'react-native';
+import { TouchableOpacity,} from 'react-native';
 import { useRouter } from 'expo-router';
 import Add_icon from '../assets/add_icon.svg';
 
@@ -10,7 +10,7 @@ const Add_bot = () => {
         <TouchableOpacity onPress={() => {
           router.navigate('add_nota')
         }}>
-            <Add_icon width={100} height={100} />;
+            <Add_icon width={70} height={70} />
         </TouchableOpacity>
     );
 }; 
