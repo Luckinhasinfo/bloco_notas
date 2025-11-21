@@ -8,7 +8,7 @@ const Add_alarme_bot = () => {
 
     return (
         <TouchableOpacity onPress={() => {
-          
+            router.push('/add_alarme')
         }}>
             <Add_alarme_icon width={70} height={70} />
         </TouchableOpacity>

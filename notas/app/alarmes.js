@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, FlatList, Button } from "react-native";
 import Alarme from "../Componentes/alarme";
 import Add_alarme_bot from "../Componentes/add_alarme_bot";
+import Dia_bot from "../Componentes/dia";
 import { useState } from "react";
 
 export default function notas_gerar() {
@@ -25,7 +26,8 @@ export default function notas_gerar() {
             texto: 'Meu terceiro alarme',
             data: '16/08/2025',
             hora: '12:30',
-        }
+        },
+        
     ]);
 
     return (
@@ -33,6 +35,12 @@ export default function notas_gerar() {
 
           <View style={styles.barra_sup}>
                <Text style={styles.texto_barra_sup}>Tarefas</Text>
+          </View>
+
+          <View style={styles.espacamento}></View>
+
+          <View style={styles.dias}>
+               <Dia_bot></Dia_bot>
           </View>
 
           <View style={styles.fundo_notas}>
@@ -74,13 +82,30 @@ const styles = StyleSheet.create({
           fontWeight: "bold",
      },
      //BARRA SUPERIOR
-     //NOTAS
+     //ESPAÇAMENTO
+      espacamento: {
+          width: "100%",
+          height: "3%",
+          backgroundColor: "#a9c7d4",
+     },
+     //ESPAÇAMENTO
+     //DIAS
+          dias: {
+          width: "100%",
+          height: "8%",
+          backgroundColor: "#95AFBB",
+          justifyContent: "center",
+          alignItems: "center",
+          paddingHorizontal: 10,
+     },
+     //DIAS
+     //ALARMES
      fundo_notas: {
           flex: 1,
           alignItems: "center",
-          paddingTop: 24,
+          paddingTop: 15,
      },
-     //NOTAS
+     //ALARMES
      //BARRA INFERIOR
      barra_inf: {
           width: "100%",
