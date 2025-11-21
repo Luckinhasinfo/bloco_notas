@@ -1,4 +1,6 @@
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+
+
 const Cadastro = () => (
     <View style={styles.app}>
         <View style={styles.container}>
