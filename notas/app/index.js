@@ -3,8 +3,10 @@ import Nota from "../Componentes/nota";
 import Add_nota_bot from "../Componentes/add_nota_bot";
 import Alarme_bot from "../Componentes/alarme_bot";
 import { useState } from "react";
+import { useRouter } from 'expo-router';
 
 export default function notas_gerar() {
+     const router = useRouter();
     const [notas_array, setNotas] = useState([
         {
             id: 1,
@@ -19,7 +21,7 @@ export default function notas_gerar() {
             texto: 'Minha terceira nota'
         }
     ]);
-
+  
     return (
      <View style={styles.fundo}>
 
@@ -27,7 +29,8 @@ export default function notas_gerar() {
                <Text style={styles.texto_barra_sup}>Anotações</Text>
           </View>
 
-          <View style={styles.fundo_notas}>
+         <View style={styles.fundo_notas}>
+               <View style={styles.fundo_notas}>
                <FlatList
                     data={notas_array}
                     renderItem={({ item }) => <Nota nota={item} />}
@@ -35,9 +38,10 @@ export default function notas_gerar() {
                     numColumns={2}
                />
           </View>
+          </View>
 
           <View style={styles.barra_inf}>
-               <Add_nota_bot>
+               <Add_nota_bot onPress={() => router.push('/anotacoesSecretas')}>
 
                </Add_nota_bot>
                <Alarme_bot></Alarme_bot>
