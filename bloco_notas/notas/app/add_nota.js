@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, FlatList, im } from "react-native";
-import Done from "../assets/Done.svg";
-import Close from "../assets/Close.svg";
-import Sum from "../assets/Sum.svg";
+import Done from "../assets/done.svg";
+import Close from "../assets/close.svg";
+import Sum from "../assets/cor.svg";
 
 
 export default function add_nota() {
@@ -33,7 +33,7 @@ export default function add_nota() {
                     
                     <Close width={50} height={50} 
                     style={{
-                         color: "red"}}/>
+                         color: "white"}}/>
                </View>
           </View>
 

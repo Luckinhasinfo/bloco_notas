@@ -4,28 +4,30 @@ import { useRouter } from "expo-router";
 const Login = () => {
      const router = useRouter();
      return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Faça seu login</Text>
+     <View style={styles.app}>
+          <View style={styles.container}>
+               <Text style={styles.title}>Faça seu login</Text>
 
-      <TextInput style={styles.input} placeholder="Usuário" />
-      <TextInput style={styles.input} placeholder="Senha" secureTextEntry />
+               <TextInput style={styles.input} placeholder="Usuário" />
+               <TextInput style={styles.input} placeholder="Senha" secureTextEntry />
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => {
-          router.push("/notas");
-        }}
-      >
-        <Text style={styles.buttonText}>Login</Text>
-      </TouchableOpacity>
+               <TouchableOpacity
+               style={styles.button}
+               onPress={() => {
+                    router.push("/notas");
+               }}
+               >
+               <Text style={styles.buttonText}>Login</Text>
+               </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => {
-          router.push("/cadastro")}}
-          style={styles.link}>
+               <TouchableOpacity onPress={() => {
+                    router.push("/cadastro")}}
+                    style={styles.link}>
 
-        <Text style={styles.linkText}>Não tem uma conta? Cadastre-se</Text>
-      </TouchableOpacity>
-    </View>
+               <Text style={styles.linkText}>Não tem uma conta? Cadastre-se</Text>
+               </TouchableOpacity>
+          </View>
+     </View>
   );
 }
   
