@@ -1,29 +1,47 @@
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { useRouter } from 'expo-router';
+import PasswordInput from "../Componentes/PasswordInput";
+import { useState } from "react";
 
-const Login = () => (
-    <View style={styles.container}>
-      <Text style={styles.title}>Faça seu login</Text>
+export default function Login() {
+  const router = useRouter();
+  const [password, setPassword] = useState('');
 
-      <TextInput style={styles.input} placeholder="Usuário" />
-      <TextInput style={styles.input} placeholder="Senha" secureTextEntry />
+  const handleLogin = () => {
+    
+    router.replace('/(app)');
+  };
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => {
-          Alert.alert("Login realizado!");
-          setTela("anotacoes");
-        }}
-      >
-        <Text style={styles.buttonText}>Login</Text>
-      </TouchableOpacity>
+  return (
+    <View style={styles.app}>
+      <View style={styles.container}>
+        <Text style={styles.title}>Faça seu login</Text>
 
-      <TouchableOpacity onPress={() => setTela("cadastro")} style={styles.link}>
-        <Text style={styles.linkText}>Não tem uma conta? Cadastre-se</Text>
-      </TouchableOpacity>
+        <TextInput 
+          style={styles.input} 
+          placeholder="Usuário" 
+        />
+        <PasswordInput
+          placeholder="Senha"
+          value={password}
+          onChangeText={setPassword}
+        />
+
+        <TouchableOpacity
+          style={styles.button}
+          onPress={handleLogin}
+        >
+          <Text style={styles.buttonText}>Login</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.link} onPress={() => router.push('/cadastro')}>
+          <Text style={styles.linkText}>Não tem uma conta? Cadastre-se</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
+}
 
-  
 const styles = StyleSheet.create({
   app: {
     flex: 1,
@@ -78,19 +96,4 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textDecorationLine: "underline",
   },
-  grid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    gap: 10,
-  },
-  card: {
-    backgroundColor: "#B9CED5",
-    padding: 12,
-    borderRadius: 8,
-    width: "45%",
-    margin: 5,
-  },
 });
-
-export default Login;
