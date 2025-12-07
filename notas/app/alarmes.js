@@ -1,7 +1,7 @@
 import { StyleSheet, View, FlatList } from "react-native";
 import Alarme from "../Componentes/alarme";
 import Header from "../Componentes/header_alarmes";
-import Footer from "../Componentes/footer";
+import Footer from "../Componentes/footer_alarmes";
 import DiasSelector from "../Componentes/DiasSelector";
 import { useState } from "react";
 import { useRouter } from 'expo-router';
