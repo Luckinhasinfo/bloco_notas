@@ -1,6 +1,7 @@
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useRouter } from "expo-router";
 import { useState } from "react";
+import { useEffect } from "react";
 import { Alert } from "react-native";   
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import PasswordInput from "../Componentes/PasswordInput"; 
@@ -11,7 +12,21 @@ import PasswordInput from "../Componentes/PasswordInput";
 const Login = () => {
      const [email, setEmail] = useState('');
      const [password, setPassword] = useState('');
+     const router = useRouter();
 
+
+      useEffect(() => {
+      (async () => {
+        try {
+          const json = await AsyncStorage.getItem('usuario_logado');
+          if (json) {
+             router.replace("/notas")
+          }
+        } catch (e) {
+          console.error('Erro ao checar usuario_logado:', e);
+        }
+      })();
+    }, []);
 
           async function apertouBotao() {   
           try {
@@ -44,7 +59,6 @@ const Login = () => {
 
 
 
-     const router = useRouter();
      return (
      <View style={styles.app}>
           <View style={styles.container}>

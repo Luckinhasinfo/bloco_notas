@@ -15,11 +15,6 @@ const PASTAS_INICIAIS = [
 
 const NOTAS_INICIAIS = [
   { id: 1, texto: 'Minha primeira nota oiiii' },
-  { id: 2, texto: 'Minha segunda nota oiiii' },
-  { id: 3, texto: 'Minha terceira nota oiiii' },
-  { id: 4, texto: 'Estudar React Native' },
-  { id: 5, texto: 'Fazer exercícios' },
-  { id: 6, texto: 'Compras do supermercado' },
 ];
 
 export default function NotasScreen() {
