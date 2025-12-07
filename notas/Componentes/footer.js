@@ -1,16 +1,18 @@
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
+import { useRouter } from "expo-router";
 
 export default function Footer({
   onAddNota,
   onAlarme,
   onAddPasta
 }) {
+     const router = useRouter();
   return (
     <View style={styles.footer}>
       <TouchableOpacity
         style={styles.footerButton}
-        onPress={onAddNota}
+        onPress={() => router.push('/add_nota')}
         activeOpacity={0.7}
       >
         <MaterialIcons name="add" size={28} color="#ffffff" />
