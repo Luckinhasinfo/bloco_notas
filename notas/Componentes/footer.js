@@ -26,13 +26,6 @@ export default function Footer({
       </TouchableOpacity>
 
 
-      <TouchableOpacity
-        style={styles.footerButton}
-        onPress={onAlarme}
-        activeOpacity={0.7}
-      >
-        <MaterialIcons name="alarm" size={28} color="#ffffff" />
-      </TouchableOpacity>
     </View>
   );
 }

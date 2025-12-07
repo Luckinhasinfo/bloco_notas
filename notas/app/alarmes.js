@@ -1,11 +1,14 @@
-import { StyleSheet, Text, View, FlatList, Button } from "react-native";
+import { StyleSheet, View, FlatList } from "react-native";
 import Alarme from "../Componentes/alarme";
-import Add_alarme_bot from "../Componentes/add_alarme_bot";
-import Dia_bot from "../Componentes/dia";
+import Header from "../Componentes/header_alarmes";
+import Footer from "../Componentes/footer";
+import DiasSelector from "../Componentes/DiasSelector";
 import { useState } from "react";
+import { useRouter } from 'expo-router';
 
-export default function notas_gerar() {
-    const [alarmes_array, setAlarme] = useState([
+export default function AlarmesScreen() {
+    const router = useRouter();
+    const [alarmes, setAlarmes] = useState([
         {
             id: 1,
             estado: 'ligado',
@@ -27,94 +30,78 @@ export default function notas_gerar() {
             data: '16/08/2025',
             hora: '12:30',
         },
-        
     ]);
 
+    const handleAddAlarme = () => {
+        router.push('/adicionar-alarme');
+    };
+
+    const handleConfiguracoes = () => {
+        router.push('/configuracoes');
+    };
+
+    const renderAlarme = ({ item }) => (
+        <Alarme alarme={item} />
+    );
+
     return (
-     <View style={styles.fundo}>
+        <View style={styles.container}>
+            <Header 
+                title="Tarefas" 
+                showBackButton={false}//MUDA SE QUISER DPS
+                onBackPress={() => router.back()}
+            />
 
-          <View style={styles.barra_sup}>
-               <Text style={styles.texto_barra_sup}>Tarefas</Text>
-          </View>
+            <View style={styles.spacer} />
 
-          <View style={styles.espacamento}></View>
+            <View style={styles.diasContainer}>
+                <DiasSelector />
+            </View>
 
-          <View style={styles.dias}>
-               <Dia_bot></Dia_bot>
-          </View>
-
-          <View style={styles.fundo_notas}>
-               <FlatList
-                    data={alarmes_array}
-                    renderItem={({ item }) => <Alarme alarme={item} />}
+            <View style={styles.content}>
+                <FlatList
+                    data={alarmes}
+                    renderItem={renderAlarme}
                     keyExtractor={item => item.id.toString()}
                     numColumns={2}
-               />
-          </View>
+                    contentContainerStyle={styles.flatListContent}
+                    showsVerticalScrollIndicator={false}
+                />
+            </View>
 
-          <View style={styles.barra_inf}>
-               <Add_alarme_bot></Add_alarme_bot>
-          </View>
-     </View>
+            <Footer 
+                onAddNota={handleAddAlarme}
+                onAlarme={handleConfiguracoes}
+                showBackButton={false}
+                alarmeIcon="cog" // Ícone de engrenagem para configurações
+            />
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
-     //BACK
-    fundo:{
-          flex: 1,
-          backgroundColor: "#a9c7d4",
-          justifyContent: "center",
-          alignItems: "center",
+    container: {
+        flex: 1,
+        backgroundColor: "#a9c7d4",
     },
-    //BACK
-    //BARRA SUPERIOR
-     barra_sup: {
-          width: "100%",
-          height: "10%",
-          backgroundColor: "#3f516e",
-          justifyContent: "center",
-          alignItems: "center",
-     },
-     texto_barra_sup: {
-          color: "#ffffff",
-          fontSize: 30,
-          fontWeight: "bold",
-     },
-     //BARRA SUPERIOR
-     //ESPAÇAMENTO
-      espacamento: {
-          width: "100%",
-          height: "3%",
-          backgroundColor: "#a9c7d4",
-     },
-     //ESPAÇAMENTO
-     //DIAS
-          dias: {
-          width: "100%",
-          height: "8%",
-          backgroundColor: "#95AFBB",
-          justifyContent: "center",
-          alignItems: "center",
-          paddingHorizontal: 10,
-     },
-     //DIAS
-     //ALARMES
-     fundo_notas: {
-          flex: 1,
-          alignItems: "center",
-          paddingTop: 15,
-     },
-     //ALARMES
-     //BARRA INFERIOR
-     barra_inf: {
-          width: "100%",
-          height: "10%",
-          backgroundColor: "#3f516e",
-          alignItems: "center",
-          justifyContent: "center",
-          flexDirection: "row",
-          gap: 100,
-     },
-     //BARRA INFERIOR
+    spacer: {
+        width: "100%",
+        height: 20,
+        backgroundColor: "#a9c7d4",
+    },
+    diasContainer: {
+        width: "100%",
+        height: 70,
+        backgroundColor: "#95AFBB",
+        justifyContent: "center",
+        alignItems: "center",
+        paddingHorizontal: 10,
+    },
+    content: {
+        flex: 1,
+    },
+    flatListContent: {
+        padding: 16,
+        paddingTop: 15,
+    },
 });

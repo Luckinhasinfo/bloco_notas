@@ -151,9 +151,6 @@ export default function NotasScreen() {
     router.push('/AddNota');
   };
 
-  const handleAlarme = () => {
-    router.push('/alarmes');
-  };
 
   const handleAddPasta = () => {
     router.push('/pasta');
@@ -188,7 +185,6 @@ export default function NotasScreen() {
 
       <Footer 
         onAddNota={handleAddNota}
-        onAlarme={handleAlarme}
         onAddPasta={handleAddPasta} 
       />
     </View>

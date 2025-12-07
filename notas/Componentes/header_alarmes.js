@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import SenhaDialog from './SenhaDialog';
 import { router, useRouter } from 'expo-router';
 
+
 const Header = ({
   title = "Anotações",
   backgroundColor = "#3f516e",
@@ -18,6 +19,7 @@ const Header = ({
   onLogout
 }) => {
   const navigation = useNavigation();
+  const router = useRouter();
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const [senhaDialogVisible, setSenhaDialogVisible] = useState(false);
   const slideAnim = useRef(new Animated.Value(-300)).current;
@@ -152,15 +154,15 @@ const Header = ({
               <TouchableOpacity
                 style={[styles.sidebarItem, styles.sidebarItemButton]}
                 onPress={() => {
-                  router.replace('/alarmes');
+                  router.replace('/notas');
                 }}
               >
                 <MaterialCommunityIcons
-                  name="bell"
+                  name="note"
                   size={22}
                   color="#3f516e"
                 />
-                <Text style={styles.sidebarItemText}>Alarmes</Text>
+                <Text style={styles.sidebarItemText}>Anotações</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
