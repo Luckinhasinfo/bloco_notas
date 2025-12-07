@@ -1,21 +1,68 @@
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useRouter } from "expo-router";
+import { useState } from "react";
+import { Alert } from "react-native";   
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import PasswordInput from "../Componentes/PasswordInput"; 
+
+
+
 
 const Login = () => {
+     const [email, setEmail] = useState('');
+     const [password, setPassword] = useState('');
+
+
+          async function apertouBotao() {   
+          try {
+               const usuariosJson = await AsyncStorage.getItem('usuarios');
+               let usuarios = usuariosJson ? JSON.parse(usuariosJson) : [];
+               
+               const emailCerto = usuarios.some(u => u.email == email);
+               const passwordCerto = usuarios.some(u => u.password == password);
+               
+               
+               if (!emailCerto) {
+                    Alert.alert("Erro", "Usuário ou senha não encontrados!");
+                    return;
+               }
+
+               if (!passwordCerto) {
+                    Alert.alert("Erro", "Usuário ou senha não encontrados!");
+                    return;
+               }
+               const user = usuarios.find(u => u.email == email);
+         
+               await AsyncStorage.setItem('usuario_logado', JSON.stringify(user));
+
+               router.push("/notas");
+          } catch (error) {
+               Alert.alert("Erro", "Falha ao salvar usuário!");
+               console.error(error);
+          }
+     }
+
+
+
      const router = useRouter();
      return (
      <View style={styles.app}>
           <View style={styles.container}>
                <Text style={styles.title}>Faça seu login</Text>
 
-               <TextInput style={styles.input} placeholder="Usuário" />
-               <TextInput style={styles.input} placeholder="Senha" secureTextEntry />
+               <TextInput style={styles.input} 
+               placeholder="E-mail" 
+               value={email}
+               onChangeText={setEmail}/>
+
+               <PasswordInput
+               placeholder="Senha"
+               value={password}
+               onChangeText={setPassword}/>
 
                <TouchableOpacity
                style={styles.button}
-               onPress={() => {
-                    router.push("/notas");
-               }}
+               onPress={apertouBotao}
                >
                <Text style={styles.buttonText}>Login</Text>
                </TouchableOpacity>

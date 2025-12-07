@@ -13,30 +13,51 @@ const Cadastro = () => {
      const [password, setPassword] = useState('');
     
      async function apertouBotao() {
-         if (!nome.trim()) {
+          if (!nome.trim()) {
              Alert.alert("Erro", "Preencha o campo \"Nome\" corretamente!");
              return;
-         }
-         if (!email.trim()) {
+          }
+          if (!email.trim()) {
              Alert.alert("Erro", "Preencha o campo \"E-mail\" corretamente!");
              return;
-         }
-         if (!email.includes('@')) {
+          }
+          if (!email.includes('@')) {
              Alert.alert("Erro", "Preencha o campo \"E-mail\" com um email válido!");
              return;
-         }
-         if (!password.trim()) {
+          }
+          if (!password.trim()) {
              Alert.alert("Erro", "Preencha o campo \"Senha\" corretamente!");
              return;
-         }
+          }
+         
          
          const user = {
                nome: nome,
                email: email,
-               password: password
+               password: password,
+               senha_secreta: ''
           };
-         await AsyncStorage.setItem('user', JSON.stringify(user));
-         router.push("/notas");
+         
+         try {
+               const usuariosJson = await AsyncStorage.getItem('usuarios');
+               let usuarios = usuariosJson ? JSON.parse(usuariosJson) : [];
+               
+               const emailExistente = usuarios.some(u => u.email == email);
+               
+               if (emailExistente == true) {
+                    Alert.alert("Erro", "Este email já está cadastrado!");
+                    return;
+               }
+               
+               usuarios.push(user);
+               
+               await AsyncStorage.setItem('usuarios', JSON.stringify(usuarios));
+               await AsyncStorage.setItem('usuario_logado', JSON.stringify(user));
+               router.push("/notas");
+          } catch (error) {
+               Alert.alert("Erro", "Falha ao salvar usuário!");
+               console.error(error);
+          }
      }
 
 
