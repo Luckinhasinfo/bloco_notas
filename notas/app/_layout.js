@@ -6,16 +6,19 @@ import * as NavigationBar from "expo-navigation-bar";
 export default function AppLayout() {
 
   useEffect(() => {
-    //blloqueia o botão físico
-    const onBackPress = () => true;
-    BackHandler.addEventListener("hardwareBackPress", onBackPress);
 
-    //esconde a barra de navegação do cell
+    const onBackPress = () => true;
+
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      onBackPress
+    );
     NavigationBar.setVisibilityAsync("hidden");
     NavigationBar.setBehaviorAsync("overlay-swipe");
 
     return () => {
-      BackHandler.removeEventListener("hardwareBackPress", onBackPress);
+      backHandler.remove();
     };
   }, []);
 

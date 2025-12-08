@@ -5,7 +5,7 @@ import Add_nota_icon from '../assets/add_nota_icon.svg';
 export default function Add_nota_bot({}) {
     const router = useRouter();
     return (
-        <TouchableOpacity onPress={() => router.push("/add_nota")}>
+        <TouchableOpacity onPress={() => router.push("/addNota")}>
             <Add_nota_icon width={70} height={70} 
             style={{
                color: "white"}}/>
