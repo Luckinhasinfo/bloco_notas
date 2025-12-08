@@ -148,12 +148,12 @@ export default function NotasScreen() {
   };
 
   const handleAddNota = () => {
-    router.push('/AddNota');
+    router.push('/addNota');
   };
 
 
   const handleAddPasta = () => {
-    router.push('/pasta');
+    router.push('/addPasta');
   };
 
   return (

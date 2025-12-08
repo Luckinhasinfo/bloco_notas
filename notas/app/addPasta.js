@@ -2,7 +2,7 @@ import { StyleSheet, View, FlatList, Text, TouchableOpacity, Alert, TextInput, T
 import { useState, useEffect } from "react";
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
-import Nota from "../../Componentes/Nota";
+import Nota from "../Componentes/nota";
 
 export default function Pasta() {
   const router = useRouter();
