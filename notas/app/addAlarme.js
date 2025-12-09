@@ -28,6 +28,14 @@ export default function AddAlarme() {
             Alert.alert("Erro", "Preencha todos os campos!");
             return;
         }
+        if (textoAlarme.length > 500) {
+            Alert.alert("Erro", "O texto do alarme não pode exceder 500 caracteres.");
+            return;
+        }
+        if (hora.length > 4) {
+            Alert.alert("Erro", "A hora do alarme não pode exceder 4 caracteres.");
+            return;
+        }
 
         const alarmesJson = await AsyncStorage.getItem('alarmes');
         let alarmes = alarmesJson ? JSON.parse(alarmesJson) : [];

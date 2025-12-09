@@ -13,14 +13,21 @@ export default function AlarmesScreen() {
     const [alarmes, setAlarmes] = useState([]);
 
     useEffect(() => {
-        async function carregarAlarmes() {
-            const alarmesJson = await AsyncStorage.getItem('alarmes');
-            const alarmesCarregados = alarmesJson ? JSON.parse(alarmesJson) : [];
-            setAlarmes(alarmesCarregados);
-        }
+    async function carregarAlarmes() {
+        const usuarioLogadoJson = await AsyncStorage.getItem('usuario_logado');
+        const usuarioLogado = usuarioLogadoJson ? JSON.parse(usuarioLogadoJson) : null;
 
-        carregarAlarmes();
-    }, []);
+        const alarmesJson = await AsyncStorage.getItem('alarmes');
+        const alarmesCarregados = alarmesJson ? JSON.parse(alarmesJson) : [];
+
+        const alarmesDoUsuario = alarmesCarregados.filter(a => a.usuarioLogado === usuarioLogado?.email);
+
+        setAlarmes(alarmesDoUsuario);
+    }
+
+    carregarAlarmes();
+}, []);
+
 
     const handleAddAlarme = () => {
         router.push('/addAlarme');
