@@ -1,4 +1,4 @@
-import { StyleSheet, View, FlatList, Text,  TouchableOpacity} from "react-native";
+import { StyleSheet, View, FlatList, Text,  TouchableOpacity, Alert} from "react-native";
 import Alarme from "../Componentes/alarme";
 import Header from "../Componentes/header_alarmes";
 import Footer from "../Componentes/footer_alarmes";
@@ -26,11 +26,42 @@ export default function AlarmesScreen() {
         router.push('/addAlarme');
     };
 
-    const renderAlarme = ({ item }) => (
-          <TouchableOpacity onPress={() => handlePressAlarme(item)}>
-               <Alarme alarme={item} />
-          </TouchableOpacity>
-     );
+//-----------------------------APAGAR-Alarme
+
+const handleLongPressAlarme = (alarme) => {
+        Alert.alert(
+            "Apagar Alarme",
+            `Deseja apagar o alarme "${alarme.texto}"?`,
+            [
+                { text: "Cancelar", style: "cancel" },
+                { 
+                    text: "Apagar", 
+                    style: "destructive", 
+                    onPress: async () => {
+                        const novosAlarmes = alarmes.filter(a => a.id !== alarme.id);
+                        setAlarmes(novosAlarmes);
+                        await AsyncStorage.setItem('alarmes', JSON.stringify(novosAlarmes));
+                    }
+                }
+            ]
+        );
+    };
+
+
+//-----------------------------APAGAR-ALARME
+
+     
+      const renderAlarme = ({ item }) => (
+        <TouchableOpacity
+            onPress={() => handlePressAlarme(item)}
+            onLongPress={() => handleLongPressAlarme(item)}
+            activeOpacity={0.8}
+        >
+            <Alarme 
+                alarme={item}
+            />
+        </TouchableOpacity>
+    );
 
      const handlePressAlarme = (alarme) => {
           router.push({
@@ -43,11 +74,7 @@ export default function AlarmesScreen() {
                }
           });
      };
-//-----------------------------APAGAR-Alarme
 
-
-
-//-----------------------------APAGAR-ALARME
 
     return (
         <View style={styles.container}>

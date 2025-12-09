@@ -37,14 +37,15 @@ const Alarme = ({ alarme }) => {
 
 const styles = StyleSheet.create({
     alarme_sty: {   
-        width: 160,
-        height: 110,
-        backgroundColor: '#ffffff',
-        borderRadius: 5,
-        margin: 5,
-        opacity: 0.8,
-        padding: 7,
-        flexDirection: 'column',
+          width: 160,
+          height: 110,
+          backgroundColor: '#ffffff',
+          borderRadius: 5,
+          margin: 5,
+          opacity: 0.8,
+          padding: 7,
+          flexDirection: 'column',
+          elevation: 6,
     },
 
     texto_alarme: {

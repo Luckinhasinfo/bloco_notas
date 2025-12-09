@@ -1,4 +1,4 @@
-import { StyleSheet, View, TouchableOpacity, TextInput, TouchableWithoutFeedback, Keyboard, Alert } from "react-native";
+import { StyleSheet, View, TouchableOpacity, TextInput, TouchableWithoutFeedback, Keyboard, Alert, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useState, useEffect } from "react";
@@ -69,11 +69,12 @@ export default function AddAlarme() {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View style={styles.fundo}>
-                <View style={styles.barra_sup}>
+               <View style={styles.barra_sup}>
                     <TouchableOpacity style={styles.backButton} onPress={handleBackPress} activeOpacity={0.7}>
-                        <MaterialCommunityIcons name="arrow-left" size={24} color="#fff" />
+                         <MaterialCommunityIcons name="arrow-left" size={24} color="#fff" />
                     </TouchableOpacity>
-                </View>
+                    <Text style={styles.titulo}>Adicionar Alarme</Text>
+               </View>
 
                 <View style={styles.inputsContainer}>
                     <TextInput
@@ -112,15 +113,6 @@ const styles = StyleSheet.create({
     fundo: {
         flex: 1,
         backgroundColor: "#a9c7d4",
-    },
-    barra_sup: {
-        width: "100%",
-        height: 100,
-        paddingTop: 40,
-        backgroundColor: "#3f516e",
-        justifyContent: "center",
-        borderBottomLeftRadius: 20,
-        borderBottomRightRadius: 20,
     },
     backButton: {
         position: 'absolute',
@@ -165,4 +157,30 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: '#fff',
     },
+    barra_sup: {
+    width: "100%",
+    height: 140,           // mais altura para dar espaço ao título
+    paddingTop: 50,
+    backgroundColor: "#3f516e",
+    justifyContent: "center",
+    alignItems: "center",  // centraliza o título
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+},
+titulo: {
+    fontSize: 25,             // maior que antes
+    fontWeight: 'bold',
+    color: '#fff',            // branco para contrastar
+    textAlign: 'center',
+    letterSpacing: 1,
+    textShadowColor: 'rgba(0, 0, 0, 0.2)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 3,
+},
+
 });
