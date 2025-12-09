@@ -27,16 +27,18 @@ export default function NotasScreen() {
                setNotas(notasCarregadas);
                setPastas(pastasCarregadas);
 
-                const notasFiltradas0 = notasCarregadas.filter(n => n.usuarioLogado === emailUsuario.email).map(n => ({...n,
+                const notasFiltradas0 = notasCarregadas.filter(n => n.secreta === true).map(n => ({...n,
                     tipo: 'nota',
                     texto: n.textoNota
                }));
 
-               const notasFiltradas = notasFiltradas0.filter(n => n.secreta === true).map(n => ({...n,
+
+                const notasFiltradas = notasFiltradas0.filter(n => n.usuarioLogado === emailUsuario.email).map(n => ({...n,
                     tipo: 'nota',
                     texto: n.textoNota
                }));
 
+          
                const itensCombinados = [
                     ...pastasCarregadas.map(p => ({ ...p, tipo: 'pasta' })),
                     ...notasFiltradas
@@ -92,8 +94,13 @@ const handleLongPressItem = (item) => {
 
                         setNotas(notas);
 
-                        const notasFiltradas = notas.filter(n => n.usuarioLogado === item.usuarioLogado)
-                            .map(n => ({ ...n, tipo: 'nota', texto: n.textoNota }));
+                         const notasFiltradas0 = notas.filter(n => n.usuarioLogado === item.usuarioLogado)
+                              .map(n => ({ ...n, tipo: 'nota', texto: n.textoNota }));
+
+                         const notasFiltradas = notasFiltradas0.filter(n => n.secreta === true).map(n => ({...n,
+                              tipo: 'nota',
+                              texto: n.textoNota
+                         }));
 
                         const itensCombinados = [
                             ...pastas.map(p => ({ ...p, tipo: 'pasta' })),
