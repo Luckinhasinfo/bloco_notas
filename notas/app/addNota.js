@@ -27,10 +27,14 @@ export default function AddNota() {
           let notas = notasJson ? JSON.parse(notasJson) : [];
           let quantidadeId = notas.length + 1;
 
+          const usuarioLogadoJson = await AsyncStorage.getItem('usuario_logado');
+          const usuarioLogado = usuarioLogadoJson ? JSON.parse(usuarioLogadoJson) : null;
+
          const nota = {
                id: quantidadeId,
                nomeNota: nomeNota,
                textoNota: notaTxt,
+               usuarioLogado: usuarioLogado.email,
                pastaDentro: null
           };
          

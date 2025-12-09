@@ -5,6 +5,9 @@ import Header from "../Componentes/header";
 import Footer from "../Componentes/footer";
 import Nota from "../Componentes/nota";
 import Pasta from "../Componentes/pasta";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
 
 
 
@@ -19,7 +22,10 @@ const NOTAS_INICIAIS = [
   { id: 1, texto: 'Minha primeira nota oiiii' },
 ];
 
+
+
 export default function NotasScreen() {
+     
   const router = useRouter();
   const [pastas, setPastas] = useState(PASTAS_INICIAIS);
   const [notas, setNotas] = useState(NOTAS_INICIAIS);
