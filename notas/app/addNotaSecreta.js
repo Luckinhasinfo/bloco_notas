@@ -68,7 +68,7 @@ export default function AddNota() {
                nomeNota: nomeNota.trim(),
                textoNota: notaTxt.trim(),
                usuarioLogado: usuarioLogado.email,
-               pastaDentro: null
+               secreta: true
           };
 
           notas.push(novaNota);

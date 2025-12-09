@@ -2,7 +2,7 @@ import { StyleSheet, View, FlatList, Alert, Text } from "react-native";
 import { useState, useEffect } from "react";
 import { useRouter } from 'expo-router';
 import Header from "../Componentes/headerSecreto";
-import Footer from "../Componentes/footer";
+import Footer from "../Componentes/footerSecreto";
 import Nota from "../Componentes/nota";
 import Pasta from "../Componentes/pasta";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -27,7 +27,12 @@ export default function NotasScreen() {
                setNotas(notasCarregadas);
                setPastas(pastasCarregadas);
 
-                const notasFiltradas = notasCarregadas.filter(n => n.usuarioLogado === emailUsuario.email).map(n => ({...n,
+                const notasFiltradas0 = notasCarregadas.filter(n => n.usuarioLogado === emailUsuario.email).map(n => ({...n,
+                    tipo: 'nota',
+                    texto: n.textoNota
+               }));
+
+               const notasFiltradas = notasFiltradas0.filter(n => n.secreta === true).map(n => ({...n,
                     tipo: 'nota',
                     texto: n.textoNota
                }));

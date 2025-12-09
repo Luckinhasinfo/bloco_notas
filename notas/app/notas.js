@@ -27,7 +27,12 @@ export default function NotasScreen() {
                setNotas(notasCarregadas);
                setPastas(pastasCarregadas);
 
-                const notasFiltradas = notasCarregadas.filter(n => n.usuarioLogado === emailUsuario.email).map(n => ({...n,
+                const notasFiltradas0 = notasCarregadas.filter(n => n.usuarioLogado === emailUsuario.email).map(n => ({...n,
+                    tipo: 'nota',
+                    texto: n.textoNota
+               }));
+
+               const notasFiltradas = notasFiltradas0.filter(n => n.secreta === false).map(n => ({...n,
                     tipo: 'nota',
                     texto: n.textoNota
                }));
