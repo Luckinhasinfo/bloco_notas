@@ -118,14 +118,12 @@ export default function AddAlarme() {
                         placeholder="Data (DD/MM/YYYY)"
                         value={data}
                         onChangeText={setData}
-                        keyboardType="numeric"
                     />
                     <TextInput
                         style={styles.input}
                         placeholder="Hora (HH:mm)"
                         value={hora}
                         onChangeText={setHora}
-                        keyboardType="numeric"
                     />
                 </View>
 
