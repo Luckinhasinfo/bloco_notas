@@ -9,32 +9,23 @@ export default function AddAlarme() {
     const navigation = useNavigation();
     const router = useRouter();
     const params = useLocalSearchParams();
-
     const editando = params.id !== undefined;
 
-    const [nomeAlarme, setNomeAlarme] = useState('');
+    const [textoAlarme, setTextoAlarme] = useState('');
+    const [data, setData] = useState('');
     const [hora, setHora] = useState('');
-    const [data, setData] = useState(''); 
 
     useEffect(() => {
         if (editando) {
-            setNomeAlarme(params.nome || "");
-            setHora(params.hora || "");
+            setTextoAlarme(params.texto || "");
             setData(params.data || "");
+            setHora(params.hora || "");
         }
     }, [editando]);
 
     async function apertouBotao() {
-        if (!nomeAlarme.trim()) {
-            Alert.alert("Erro", "O campo \"Nome do alarme\" está vazio!");
-            return;
-        }
-        if (!hora.trim()) {
-            Alert.alert("Erro", "O campo \"Hora\" está vazio!");
-            return;
-        }
-        if (!data.trim()) {
-            Alert.alert("Erro", "O campo \"Data\" está vazio!");
+        if (!textoAlarme.trim() || !data.trim() || !hora.trim()) {
+            Alert.alert("Erro", "Preencha todos os campos!");
             return;
         }
 
@@ -44,27 +35,27 @@ export default function AddAlarme() {
         if (editando) {
             const index = alarmes.findIndex(a => a.id === Number(params.id));
             if (index !== -1) {
-                alarmes[index].texto = nomeAlarme.trim();
-                alarmes[index].hora = hora.trim();
+                alarmes[index].texto = textoAlarme.trim();
                 alarmes[index].data = data.trim();
+                alarmes[index].hora = hora.trim();
             }
             await AsyncStorage.setItem('alarmes', JSON.stringify(alarmes));
             router.replace("/alarmes");
             return;
         }
 
-          const usuarioLogadoJson = await AsyncStorage.getItem('usuario_logado');
-          const usuarioLogado = usuarioLogadoJson ? JSON.parse(usuarioLogadoJson) : null;
+        const usuarioLogadoJson = await AsyncStorage.getItem('usuario_logado');
+        const usuarioLogado = usuarioLogadoJson ? JSON.parse(usuarioLogadoJson) : null;
 
-          const maiorId = alarmes.length > 0 ? Math.max(...alarmes.map(a => a.id)) : 0;
-          const novoId = maiorId + 1;
+        const maiorId = alarmes.length > 0 ? Math.max(...alarmes.map(a => a.id)) : 0;
+        const novoId = maiorId + 1;
 
         const novoAlarme = {
             id: novoId,
             estado: 'ligado',
-            texto: nomeAlarme.trim(),
-            hora: hora.trim(),
+            texto: textoAlarme.trim(),
             data: data.trim(),
+            hora: hora.trim(),
             usuarioLogado: usuarioLogado.email,
         };
 
@@ -73,50 +64,41 @@ export default function AddAlarme() {
         router.replace("/alarmes");
     }
 
-    const handleBackPress = () => {
-        navigation.goBack();
-    };
+    const handleBackPress = () => navigation.goBack();
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View style={styles.fundo}>
                 <View style={styles.barra_sup}>
-                    <TouchableOpacity
-                        style={styles.backButton}
-                        onPress={handleBackPress}
-                        activeOpacity={0.7}
-                    >
-                        <MaterialCommunityIcons
-                            name="arrow-left"
-                            size={24}
-                            color="#ffffff"
-                        />
+                    <TouchableOpacity style={styles.backButton} onPress={handleBackPress} activeOpacity={0.7}>
+                        <MaterialCommunityIcons name="arrow-left" size={24} color="#fff" />
                     </TouchableOpacity>
+                </View>
 
+                <View style={styles.inputsContainer}>
                     <TextInput
-                        style={styles.titulo}
-                        placeholder="Nome do alarme..."
-                        placeholderTextColor="rgba(255, 255, 255, 0.8)"
-                        onChangeText={setNomeAlarme}
-                        value={nomeAlarme}
+                        style={styles.input}
+                        placeholder="Nome do alarme"
+                        value={textoAlarme}
+                        onChangeText={setTextoAlarme}
+                    />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Data (DD/MM/YYYY)"
+                        value={data}
+                        onChangeText={setData}
+                        keyboardType="numeric"
+                    />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Hora (HH:mm)"
+                        value={hora}
+                        onChangeText={setHora}
+                        keyboardType="numeric"
                     />
                 </View>
 
-                <TextInput
-                    style={styles.textoNota}
-                    placeholder="Hora (HH:mm)"
-                    onChangeText={setHora}
-                    value={hora}
-                />
-
-                <TextInput
-                    style={styles.textoNota}
-                    placeholder="Data (DD/MM/YYYY)"
-                    onChangeText={setData}
-                    value={data}
-                />
-
-                <TouchableOpacity onPress={apertouBotao} activeOpacity={0.7}>
+                <TouchableOpacity onPress={apertouBotao} activeOpacity={0.8}>
                     <View style={styles.floatingButton}>
                         <MaterialCommunityIcons name="content-save" size={28} color="#fff" />
                     </View>
@@ -133,13 +115,12 @@ const styles = StyleSheet.create({
     },
     barra_sup: {
         width: "100%",
-        height: 130,
+        height: 100,
         paddingTop: 40,
         backgroundColor: "#3f516e",
-        flexDirection: "row",
-        alignItems: "center",
-        paddingHorizontal: 15,
         justifyContent: "center",
+        borderBottomLeftRadius: 20,
+        borderBottomRightRadius: 20,
     },
     backButton: {
         position: 'absolute',
@@ -148,29 +129,28 @@ const styles = StyleSheet.create({
         padding: 8,
         zIndex: 1,
     },
-    titulo: {
+    inputsContainer: {
         flex: 1,
-        color: "#ffffff",
-        fontSize: 20,
-        fontWeight: "600",
-        textAlign: "center",
-        marginLeft: 40,
-        marginRight: 10,
-        paddingVertical: 8,
+        justifyContent: "center",
+        paddingHorizontal: 30,
     },
-    textoNota: {
-        fontSize: 18,
-        color: "#2c3e50",
-        padding: 15,
-        marginHorizontal: 20,
-        marginVertical: 10,
+    input: {
         backgroundColor: "#fff",
-        borderRadius: 8,
+        marginVertical: 10,
+        padding: 15,
+        borderRadius: 12,
+        fontSize: 16,
+        color: "#2c3e50",
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
+        elevation: 3,
     },
     floatingButton: {
         position: 'absolute',
         bottom: 30,
-        right: 30,
+        right: 20,
         width: 60,
         height: 60,
         borderRadius: 30,
@@ -178,12 +158,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 3 },
-        shadowOpacity: 0.3,
-        shadowRadius: 4.65,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.4,
+        shadowRadius: 5,
         elevation: 8,
         borderWidth: 2,
         borderColor: '#fff',
-        zIndex: 1000,
     },
 });

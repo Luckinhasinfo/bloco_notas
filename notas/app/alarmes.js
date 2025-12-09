@@ -37,7 +37,7 @@ export default function AlarmesScreen() {
                pathname: '/addAlarme',
                params: {
                     id: alarme.id.toString(),
-                    nome: alarme.nome,
+                    texto: alarme.texto,
                     hora: alarme.hora,
                     data: alarme.data,
                }

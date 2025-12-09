@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet} from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import Alarme_desligado_icon from '../assets/alarme_desligado_icon.svg';
 import Alarme_ligado_icon from '../assets/alarme_ligado_icon.svg';
 
@@ -11,17 +11,30 @@ const Alarme = ({ alarme }) => {
           img = <Alarme_desligado_icon />;
      }
 
-    return (
 
+    return (
         <View style={styles.alarme_sty}>
-          {img}
-          <View style={styles.conteudo_alarme}>
-               <Text style={styles.texto_alarme}>{alarme.texto}</Text>
-               <Text style={styles.texto_alarme}>{alarme.hora}</Text>
-          </View>
+            {img}
+            <View style={styles.conteudo_alarme}>
+                <Text 
+                    style={styles.texto_alarme} 
+                    numberOfLines={1} 
+                    ellipsizeMode="tail"
+                >
+                    {alarme.texto}
+                </Text>
+                <Text 
+                    style={styles.texto_alarme} 
+                    numberOfLines={1} 
+                    ellipsizeMode="tail"
+                >
+                    {alarme.hora} - {alarme.data}
+                </Text>
+            </View>
         </View>
     );
 }; 
+
 const styles = StyleSheet.create({
     alarme_sty: {   
         width: 160,
@@ -30,8 +43,8 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         margin: 5,
         opacity: 0.8,
-          padding: 7,
-          flexDirection: 'column',
+        padding: 7,
+        flexDirection: 'column',
     },
 
     texto_alarme: {
@@ -43,4 +56,5 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
     }
 });
-    export default Alarme;
+
+export default Alarme;

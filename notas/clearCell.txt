@@ -1,8 +1,47 @@
-useEffect(() => {
-  const limpar = async () => {
-    await AsyncStorage.clear();
-    console.log("LIMPO!");
-  };
+import { View, Text, StyleSheet } from "react-native";
+import { useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-  limpar();
-}, []);
+export default function LimparAsyncScreen() {
+    useEffect(() => {
+        const limpar = async () => {
+            try {
+                await AsyncStorage.clear();
+                console.log("LIMPO!");
+            } catch (error) {
+                console.log("Erro ao limpar AsyncStorage:", error);
+            }
+        };
+
+        limpar();
+    }, []);
+
+    return (
+        <View style={styles.container}>
+            <Text style={styles.text}>AsyncStorage foi limpo!</Text>
+            <Text style={styles.subtext}>Verifique o console para confirmação.</Text>
+        </View>
+    );
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: "#a9c7d4",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: 20,
+    },
+    text: {
+        fontSize: 22,
+        fontWeight: "bold",
+        color: "#3f516e",
+        textAlign: "center",
+    },
+    subtext: {
+        marginTop: 10,
+        fontSize: 16,
+        color: "#5a7080",
+        textAlign: "center",
+    },
+});
