@@ -44,26 +44,28 @@ export default function NotasScreen() {
      }, []);
 
      const handlePressItem = (item) => {
-          if (item.tipo === 'pasta') {
-               router.push({
-                    pathname: '/pastaDetalhes',
-                    params: {
-                         pastaId: item.id.toString(),
-                         pastaNome: item.nome,
-                         corPasta: item.cor,
-                         notaIds: '[]'
-                    }
-               });
-          } else {
-               router.push({
-                    pathname: '/editarNota',
-                    params: { 
-                         id: item.id,
-                         texto: item.textoNota
-                    }
-               });
-          }
-     };
+    if (item.tipo === 'pasta') {
+        router.push({
+            pathname: '/pastaDetalhes',
+            params: {
+                pastaId: item.id.toString(),
+                pastaNome: item.nome,
+                corPasta: item.cor,
+                notaIds: '[]'
+            }
+        });
+    } else {
+        router.push({
+            pathname: '/addNota',
+            params: { 
+                id: item.id.toString(),
+                nome: item.nomeNota,
+                texto: item.textoNota
+            }
+        });
+    }
+};
+
 
      const renderItem = ({ item, index }) => {
           const itemStyle = {
