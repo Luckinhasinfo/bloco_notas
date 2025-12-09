@@ -66,6 +66,44 @@ export default function NotasScreen() {
     }
 };
 
+//-------------------------------------------------------SEGURAR ITEM
+
+const handleLongPressItem = (item) => {
+    if (item.tipo === 'nota') {
+        Alert.alert(
+            "Excluir nota",
+            "Tem certeza que deseja apagar esta nota?",
+            [
+                { text: "Cancelar", style: "cancel" },
+                { 
+                    text: "Apagar", 
+                    style: "destructive",
+                    onPress: async () => {
+                        const notasJson = await AsyncStorage.getItem('notas');
+                        let notas = notasJson ? JSON.parse(notasJson) : [];
+                        
+                        notas = notas.filter(n => n.id !== item.id);
+                        await AsyncStorage.setItem('notas', JSON.stringify(notas));
+
+                        setNotas(notas);
+
+                        const notasFiltradas = notas.filter(n => n.usuarioLogado === item.usuarioLogado)
+                            .map(n => ({ ...n, tipo: 'nota', texto: n.textoNota }));
+
+                        const itensCombinados = [
+                            ...pastas.map(p => ({ ...p, tipo: 'pasta' })),
+                            ...notasFiltradas
+                        ];
+
+                        setTodosItens(itensCombinados);
+                    }
+                }
+            ]
+        );
+    }
+};
+
+//-------------------------------------------------------SEGURAR ITEM
 
      const renderItem = ({ item, index }) => {
           const itemStyle = {
@@ -87,6 +125,7 @@ export default function NotasScreen() {
                          <Nota 
                               nota={item}
                               onPress={() => handlePressItem(item)}
+                              onLongPress={() => handleLongPressItem(item)}
                          />
                     </View>
                );
