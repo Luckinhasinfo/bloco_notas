@@ -136,9 +136,6 @@ const handleLongPressItem = (item) => {
           router.push('/addNota');
      };
 
-     const handleAddPasta = () => {
-          router.push('/addPasta');
-     };
 
      return (
           <View style={styles.container}>
@@ -148,10 +145,10 @@ const handleLongPressItem = (item) => {
                {todosItens.length === 0 ? (
                     <View style={styles.emptyContainer}>
                          <Text style={styles.emptyText}>
-                              Nenhuma pasta ou nota encontrada
+                              Nenhuma nota encontrada
                          </Text>
                          <Text style={styles.emptySubtext}>
-                              Toque no botão "+" para criar uma nova nota ou pasta
+                              Toque no botão "+" para criar uma nova nota
                          </Text>
                     </View>
                ) : (
@@ -169,7 +166,6 @@ const handleLongPressItem = (item) => {
 
                <Footer 
                     onAddNota={handleAddNota}
-                    onAddPasta={handleAddPasta}
                />
           </View>
      );

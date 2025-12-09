@@ -1,80 +1,228 @@
-import { StyleSheet, View, FlatList } from "react-native";
-import Nota from "../Componentes/nota";
-import Header from "../Componentes/header";
-import Footer from "../Componentes/footer";
-import { useState } from "react";
+import { StyleSheet, View, FlatList, Alert, Text } from "react-native";
+import { useState, useEffect } from "react";
 import { useRouter } from 'expo-router';
-
-const NOTAS_INICIAIS = [
-  {
-    id: 1,
-    texto: 'Minha primeira nota  oiiii'
-  },
-  {
-    id: 2,
-    texto: 'Minha segunda nota oiiii'
-  },
-  {
-    id: 3,
-    texto: 'Minha terceira nota oiiii'
-  }
-];
+import Header from "../Componentes/headerSecreto";
+import Footer from "../Componentes/footer";
+import Nota from "../Componentes/nota";
+import Pasta from "../Componentes/pasta";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function NotasScreen() {
-  const router = useRouter();
-  const [notas, setNotas] = useState(NOTAS_INICIAIS);
+     const router = useRouter();
+     const [pastas, setPastas] = useState([]);
+     const [notas, setNotas] = useState([]);
+     const [todosItens, setTodosItens] = useState([]);
 
-  const handleLogout = () => {
-    router.replace('/login');
-  };
-  const handleAddNota = () => {
-    router.push('/anotacoesSecretas');
-  };
+     useEffect(() => {
+          async function carregarDados() {
+               const usuarioLogadoJson = await AsyncStorage.getItem('usuario_logado');
+               const emailUsuario = usuarioLogadoJson ? JSON.parse(usuarioLogadoJson) : null;
 
-  const handleAlarme = () => {
-    router.push('/alarmes');
-  };
+               const notasJson = await AsyncStorage.getItem('notas');
+               const notasCarregadas = notasJson ? JSON.parse(notasJson) : [];
 
-  const renderNota = ({ item }) => (
-    <Nota nota={item} />
-  );
+               const pastasJson = await AsyncStorage.getItem('pastas');
+               const pastasCarregadas = pastasJson ? JSON.parse(pastasJson) : [];
 
-  return (
-    <View style={styles.container}>
-      <Header
-        title="Anotações Secretas"
-        showBackButton={true}
-        onBackPress={() => router.back()}
-      />
-      <View style={styles.content}>
-        <FlatList
-          data={notas}
-          renderItem={renderNota}
-          keyExtractor={item => item.id.toString()}
-          numColumns={2}
-          contentContainerStyle={styles.flatListContent}
-          showsVerticalScrollIndicator={false}
-        />
-      </View>
+               setNotas(notasCarregadas);
+               setPastas(pastasCarregadas);
 
-      <Footer
-        onAddNota={handleAddNota}
-        onAlarme={handleAlarme}
-      />
-    </View>
-  );
+                const notasFiltradas = notasCarregadas.filter(n => n.usuarioLogado === emailUsuario.email).map(n => ({...n,
+                    tipo: 'nota',
+                    texto: n.textoNota
+               }));
+
+               const itensCombinados = [
+                    ...pastasCarregadas.map(p => ({ ...p, tipo: 'pasta' })),
+                    ...notasFiltradas
+               ];
+
+               setTodosItens(itensCombinados);
+          }
+
+          carregarDados();
+     }, []);
+
+     const handlePressItem = (item) => {
+    if (item.tipo === 'pasta') {
+        router.push({
+            pathname: '/pastaDetalhes',
+            params: {
+                pastaId: item.id.toString(),
+                pastaNome: item.nome,
+                corPasta: item.cor,
+                notaIds: '[]'
+            }
+        });
+    } else {
+        router.push({
+            pathname: '/addNotaSecreta',
+            params: { 
+                id: item.id.toString(),
+                nome: item.nomeNota,
+                texto: item.textoNota
+            }
+        });
+    }
+};
+
+//-------------------------------------------------------SEGURAR ITEM
+
+const handleLongPressItem = (item) => {
+    if (item.tipo === 'nota') {
+        Alert.alert(
+            "Excluir nota",
+            "Tem certeza que deseja apagar esta nota?",
+            [
+                { text: "Cancelar", style: "cancel" },
+                { 
+                    text: "Apagar", 
+                    style: "destructive",
+                    onPress: async () => {
+                        const notasJson = await AsyncStorage.getItem('notas');
+                        let notas = notasJson ? JSON.parse(notasJson) : [];
+                        
+                        notas = notas.filter(n => n.id !== item.id);
+                        await AsyncStorage.setItem('notas', JSON.stringify(notas));
+
+                        setNotas(notas);
+
+                        const notasFiltradas = notas.filter(n => n.usuarioLogado === item.usuarioLogado)
+                            .map(n => ({ ...n, tipo: 'nota', texto: n.textoNota }));
+
+                        const itensCombinados = [
+                            ...pastas.map(p => ({ ...p, tipo: 'pasta' })),
+                            ...notasFiltradas
+                        ];
+
+                        setTodosItens(itensCombinados);
+                    }
+                }
+            ]
+        );
+    }
+};
+
+//-------------------------------------------------------SEGURAR ITEM
+
+     const renderItem = ({ item, index }) => {
+          const itemStyle = {
+               marginRight: index % 2 === 0 ? 8 : 0,
+          };
+
+          if (item.tipo === 'pasta') {
+               return (
+                    <View style={[styles.itemWrapper, itemStyle]}>
+                         <Pasta 
+                              pasta={item}
+                              onPress={() => handlePressItem(item)}
+                         />
+                    </View>
+               );
+          } else {
+               return (
+                    <View style={[styles.itemWrapper, itemStyle]}>
+                         <Nota 
+                              nota={item}
+                              onPress={() => handlePressItem(item)}
+                              onLongPress={() => handleLongPressItem(item)}
+                         />
+                    </View>
+               );
+          }
+     };
+
+     const handleAddNota = () => {
+          router.push('/addNotaSecreata');
+     };
+
+     const handleAddPasta = () => {
+          router.push('/addPastaSecreta');
+     };
+
+     return (
+          <View style={styles.container}>
+               <Header 
+                    title="Anotações Secretas" 
+                    showBackButton={true} 
+                    onBackPress={() => {
+                         Alert.alert("Voltar", "Tem certeza que deseja voltar?", [
+                              { text: "Cancelar", style: "cancel" },
+                              { text: "Sim", onPress: () => router.replace('/notas') }
+                         ]);
+                    }} 
+               />
+               
+               <View style={styles.content}>
+               {todosItens.length === 0 ? (
+                    <View style={styles.emptyContainer}>
+                         <Text style={styles.emptyText}>
+                              Nenhuma nota encontrada
+                         </Text>
+                         <Text style={styles.emptySubtext}>
+                              Toque no botão "+" para criar uma nova nota
+                         </Text>
+                    </View>
+               ) : (
+                    <FlatList
+                         data={todosItens}
+                         renderItem={renderItem}
+                         keyExtractor={item => `${item.tipo}-${item.id}`}
+                         numColumns={2}
+                         contentContainerStyle={styles.flatListContent}
+                         columnWrapperStyle={styles.columnWrapper}
+                         showsVerticalScrollIndicator={false}
+                    />
+               )}
+               </View>
+
+               <Footer 
+                    onAddNota={handleAddNota}
+                    onAddPasta={handleAddPasta}
+               />
+          </View>
+     );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#a9c7d4",
-  },
-  content: {
-    flex: 1,
-  },
-  flatListContent: {
-    padding: 16,
-    paddingTop: 24,
-  },
-})
+     container: {
+          flex: 1,
+          backgroundColor: "#a9c7d4",
+     },
+     content: {
+          flex: 1,
+     },
+     flatListContent: {
+          padding: 16,
+          paddingTop: 24,
+          alignItems: 'center', 
+     },
+     columnWrapper: {
+          justifyContent: 'space-between', 
+          width: '100%',
+          marginBottom: 16,
+     },
+     itemWrapper: {
+          width: '48%',
+     },
+     emptyContainer: {
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: 20,
+     },
+     emptyText: {
+          fontSize: 20,
+          color: '#3f516e',
+          fontWeight: 'bold',
+          textAlign: 'center',
+     },
+     emptySubtext: {
+          fontSize: 16,
+          color: '#5a7080',
+          textAlign: 'center',
+          marginTop: 10,
+          paddingHorizontal: 40,
+     },
+     
+});

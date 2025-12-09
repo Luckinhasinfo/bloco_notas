@@ -11,20 +11,11 @@ export default function Footer({
   return (
     <View style={styles.footer}>
       <TouchableOpacity
-        style={styles.footerButton}
+        style={styles.floatingButton}
         onPress={() => router.push('/addNota')}
         activeOpacity={0.7}
       >
         <MaterialIcons name="add" size={28} color="#ffffff" />
-      </TouchableOpacity>
-
-
-      <TouchableOpacity
-        style={styles.footerButton}
-        onPress={() => router.push('/addPasta')}
-        activeOpacity={0.7}
-      >
-        <MaterialIcons name="create-new-folder" size={28} color="#ffffff" />
       </TouchableOpacity>
 
 
@@ -46,5 +37,23 @@ const styles = StyleSheet.create({
   footerButton: {
     padding: 10,
     borderRadius: 8,
+  },
+  floatingButton: {
+    position: 'absolute',
+    bottom: 30,
+    right: 30,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#3f516e',
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
+    elevation: 8,
+    borderWidth: 2,
+    borderColor: '#fff',
   },
 });
