@@ -15,6 +15,8 @@ export default function AddAlarme() {
     const [data, setData] = useState('');
     const [hora, setHora] = useState('');
 
+
+    
     useEffect(() => {
         if (editando) {
             setTextoAlarme(params.texto || "");
@@ -28,12 +30,32 @@ export default function AddAlarme() {
             Alert.alert("Erro", "Preencha todos os campos!");
             return;
         }
-        if (textoAlarme.length > 500) {
-            Alert.alert("Erro", "O texto do alarme não pode exceder 500 caracteres.");
+        if (textoAlarme.length > 350) {
+            Alert.alert("Erro", "O texto do alarme não pode exceder 350 caracteres.");
             return;
         }
-        if (hora.length > 4) {
-            Alert.alert("Erro", "A hora do alarme não pode exceder 4 caracteres.");
+        if (hora.length > 5) {
+            Alert.alert("Erro", "A hora do alarme não pode exceder 5 caracteres.");
+            return;
+        }
+        if (hora.includes(':')) {
+            Alert.alert("Erro", "A hora não está no formato correto. Use HH:mm (ex: 08:30)");
+            return;
+        }
+        if (!/[a-zA-Z]/.test(hora)) {
+            Alert.alert("Erro", "A hora deve conter apenas números e dois pontos (ex: 08:30)");
+            return;
+        }
+        if (hora.match(/[0-9]/g) < 4) {
+            Alert.alert("Erro", "A hora deve conter apenas números e dois pontos (ex: 08:30)");
+            return;
+        }
+        if (data.length > 10) {
+            Alert.alert("Erro", "A data do alarme não pode exceder 10 caracteres.");
+            return;
+        }
+        if (data.match('/').length < 2) {
+            Alert.alert("Erro", "A data não está no formato correto. Use DD/MM/YYYY (ex: 25/12/2023)");
             return;
         }
 
