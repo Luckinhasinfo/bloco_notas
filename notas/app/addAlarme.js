@@ -38,11 +38,11 @@ export default function AddAlarme() {
             Alert.alert("Erro", "A hora do alarme não pode exceder 5 caracteres.");
             return;
         }
-        if (hora.includes(':')) {
+        if (!hora.includes(':')) {
             Alert.alert("Erro", "A hora não está no formato correto. Use HH:mm (ex: 08:30)");
             return;
         }
-        if (!/[a-zA-Z]/.test(hora)) {
+        if (/[a-zA-Z]/.test(hora)) {
             Alert.alert("Erro", "A hora deve conter apenas números e dois pontos (ex: 08:30)");
             return;
         }
@@ -52,10 +52,6 @@ export default function AddAlarme() {
         }
         if (data.length > 10) {
             Alert.alert("Erro", "A data do alarme não pode exceder 10 caracteres.");
-            return;
-        }
-        if (data.match('/').length < 2) {
-            Alert.alert("Erro", "A data não está no formato correto. Use DD/MM/YYYY (ex: 25/12/2023)");
             return;
         }
 
@@ -118,6 +114,7 @@ export default function AddAlarme() {
                         placeholder="Data (DD/MM/YYYY)"
                         value={data}
                         onChangeText={setData}
+                        keyboardType="numeric"
                     />
                     <TextInput
                         style={styles.input}
