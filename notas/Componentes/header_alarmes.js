@@ -58,18 +58,53 @@ const Header = ({
     }
   };
 
-  const handleAnotacoesSecretasPress = () => {
-    closeSidebar();
-    setTimeout(() => {
-      setSenhaDialogVisible(true);
-    }, 300);
-  };
+ const handleAnotacoesSecretasPress = () => {
+     closeSidebar();
 
-  const handleConfirmarSenha = (senha) => {
-    if (!senha) return;
-    setSenhaDialogVisible(false);
-    router.replace('/anotacoesSecretas');
-  };
+    setTimeout(() => {
+        setSenhaDialogVisible(true);
+    }, 300);
+};
+
+const handleConfirmarSenha = async (senhaDigitada) => {
+     const senhaSalvaJson = await AsyncStorage.getItem('usuario_logado');
+     const senhaSalva = senhaSalvaJson ? JSON.parse(senhaSalvaJson) : [];
+
+    if (!senhaSalva.senha_secreta) {
+          const user = {
+               nome: senhaSalva.nome,
+               email: senhaSalva.email,
+               password: senhaSalva.password,
+               senha_secreta: senhaDigitada,
+          };
+          await AsyncStorage.setItem('usuario_logado', JSON.stringify(user));
+
+          const usuariosJson = await AsyncStorage.getItem('usuarios');
+          let usuarios = usuariosJson ? JSON.parse(usuariosJson) : [];
+
+          const index = usuarios.findIndex(u => u.email === senhaSalva.email);
+
+          if (index !== -1) {
+          usuarios[index] = user; 
+          await AsyncStorage.setItem('usuarios', JSON.stringify(usuarios));
+          }
+          Alert.alert("Sucesso", "Senha definida com sucesso! Acessando as anotações secretas.");
+          router.replace('/anotacoesSecretas');
+     }
+     else
+     {
+          if (senhaDigitada === senhaSalva.senha_secreta) {
+               Alert.alert("Sucesso", "Senha correta! Acessando as anotações secretas.");
+               router.replace('/anotacoesSecretas');
+          }
+          else
+          {
+               Alert.alert("Erro", "Senha incorreta! Tente novamente.");
+          }
+     };
+     setSenhaDialogVisible(false);
+}
+
 
   return (
     <View style={[styles.header, { backgroundColor }]}>

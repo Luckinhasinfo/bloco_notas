@@ -95,6 +95,10 @@ const handleConfirmarSenha = async (senhaDigitada) => {
                Alert.alert("Sucesso", "Senha correta! Acessando as anotações secretas.");
                router.replace('/anotacoesSecretas');
           }
+          else
+          {
+               Alert.alert("Erro", "Senha incorreta! Tente novamente.");
+          }
      };
      setSenhaDialogVisible(false);
 }
