@@ -1,16 +1,51 @@
-import { StyleSheet, View, TouchableOpacity, TextInput, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { StyleSheet, View, TouchableOpacity, TextInput, TouchableWithoutFeedback, Keyboard, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useState } from "react";
+import { useRouter } from "expo-router";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
 
 export default function AddNota() {
      const navigation = useNavigation();
+     const [nomeNota, setNomeNota] = useState('');
+     const [notaTxt, setNotaTxt] = useState('');
+     const router = useRouter();
+
+     async function apertouBotao() {
+          if (!nomeNota) {
+             Alert.alert("Erro", "O campo \"Nome da nota\" está vazio!");
+             return;
+          }
+          if (!notaTxt) {
+             Alert.alert("Erro", "O campo \"Nota\" está vazio!");
+             return;
+          }
+         
+          const notasJson = await AsyncStorage.getItem('notas');
+          let notas = notasJson ? JSON.parse(notasJson) : [];
+          let quantidadeId = notas.length + 1;
+
+         const nota = {
+               id: quantidadeId,
+               nomeNota: nomeNota,
+               textoNota: notaTxt,
+               pastaDentro: null
+          };
+         
+          notas.push(nota);
+          await AsyncStorage.setItem('notas', JSON.stringify(notas));
+          router.replace("/notas");
+     }
+
 
      const handleBackPress = () => {
           navigation.goBack();
      };
 
      return (
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
                <View style={styles.fundo}>
                     <View style={styles.barra_sup}>
                          <TouchableOpacity
@@ -27,10 +62,11 @@ export default function AddNota() {
 
                          <TextInput
                               style={styles.titulo}
-                              defaultValue="Sem Nome"
                               placeholder="Digite o título..."
                               placeholderTextColor="rgba(255, 255, 255, 0.8)"
+                              onChangeText={setNomeNota}
                          />
+                         
                     </View>
 
                     <TextInput
@@ -40,7 +76,13 @@ export default function AddNota() {
                          placeholder="Digite sua anotação aqui..."
                          placeholderTextColor="rgba(63, 81, 110, 0.7)"
                          autoFocus={true}
+                         onChangeText={setNotaTxt}
                     />
+                    <TouchableOpacity onPress={apertouBotao} activeOpacity={0.7}>
+                         <View style={styles.floatingButton}>
+                              <MaterialCommunityIcons name="content-save" size={28} color="#fff" />
+                         </View>
+                    </TouchableOpacity>
                </View>
           </TouchableWithoutFeedback>
      );
@@ -85,5 +127,25 @@ const styles = StyleSheet.create({
           padding: 20,
           paddingTop: 25,
           backgroundColor: "transparent",
+     },
+
+     floatingButton: {
+          position: 'absolute',
+          bottom: 30,
+          right: 30,
+          width: 60,
+          height: 60,
+          borderRadius: 30,
+          backgroundColor: '#3f516e',
+          alignItems: 'center',
+          justifyContent: 'center',
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 3 },
+          shadowOpacity: 0.3,
+          shadowRadius: 4.65,
+          elevation: 8,
+          borderWidth: 2,
+          borderColor: '#fff',
+          zIndex: 1000,
      },
 });

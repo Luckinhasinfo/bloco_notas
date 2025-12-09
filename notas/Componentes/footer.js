@@ -12,7 +12,7 @@ export default function Footer({
     <View style={styles.footer}>
       <TouchableOpacity
         style={styles.footerButton}
-        onPress={() => router.push('/add_nota')}
+        onPress={() => router.push('/addNota')}
         activeOpacity={0.7}
       >
         <MaterialIcons name="add" size={28} color="#ffffff" />
@@ -21,7 +21,7 @@ export default function Footer({
 
       <TouchableOpacity
         style={styles.footerButton}
-        onPress={onAddPasta}
+        onPress={() => router.push('/addPasta')}
         activeOpacity={0.7}
       >
         <MaterialIcons name="create-new-folder" size={28} color="#ffffff" />

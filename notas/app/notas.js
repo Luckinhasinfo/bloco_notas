@@ -6,6 +6,8 @@ import Footer from "../Componentes/footer";
 import Nota from "../Componentes/nota";
 import Pasta from "../Componentes/pasta";
 
+
+
 const PASTAS_INICIAIS = [
   { id: 1, nome: 'Trabalho', cor: '#FF6B6B', quantidade: 5 },
   { id: 2, nome: 'Estudos', cor: '#4ECDC4', quantidade: 8 },

@@ -70,10 +70,9 @@ export default function AlarmesScreen() {
             </View>
 
             <Footer 
-                onAddNota={handleAddAlarme}
-                onAlarme={handleConfiguracoes}
+                onAddAlarme={handleAddAlarme}
                 showBackButton={false}
-                alarmeIcon="cog" // Ícone de engrenagem para configurações
+                alarmeIcon="cog"
             />
         </View>
     );

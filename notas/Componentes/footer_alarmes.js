@@ -10,7 +10,7 @@ export default function Footer({
     <View style={styles.footer}>
       <TouchableOpacity
           style={styles.floatingButton}
-        onPress={() => router.push('/add_alarme')}
+        onPress={() => router.push('/addAlarme')}
         activeOpacity={0.7}
       >
         <MaterialIcons name="add" size={28} color="#fff" />
